@@ -1,10 +1,18 @@
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Github, Linkedin, Twitter, Mail } from "lucide-react";
 
 const socialLinks = [
-  { icon: Github, href: '#', label: 'GitHub' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Mail, href: 'mailto:hello@example.com', label: 'Email' },
+  {
+    icon: Github,
+    href: "https://github.com/Mohammed-Thasleem",
+    label: "GitHub",
+  },
+  {
+    icon: Linkedin,
+    href: "https://www.linkedin.com/in/thasleempm/",
+    label: "LinkedIn",
+  },
+  { icon: Twitter, href: "https://x.com/thasleem__pm", label: "Twitter" },
+  { icon: Mail, href: "mailto:mohammedthasleempm@gmail.com", label: "Email" },
 ];
 
 export function Footer() {
@@ -20,8 +28,12 @@ export function Footer() {
               <a
                 key={social.label}
                 href={social.href}
-                target={social.href.startsWith('mailto') ? undefined : '_blank'}
-                rel={social.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+                target={social.href.startsWith("mailto") ? undefined : "_blank"}
+                rel={
+                  social.href.startsWith("mailto")
+                    ? undefined
+                    : "noopener noreferrer"
+                }
                 className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                 aria-label={social.label}
               >
@@ -32,7 +44,7 @@ export function Footer() {
 
           {/* Copyright */}
           <p className="text-sm text-muted-foreground text-center">
-            © {currentYear} Your Name. All rights reserved.
+            © {currentYear} Mohammed Thasleem. All rights reserved.
           </p>
         </div>
       </div>
