@@ -1,115 +1,106 @@
-import { useState } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Home, User, Layers, Briefcase, Mail, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { cn } from "@/lib/utils";
+import { useScrollDirection } from "@/hooks/useScrollDirection";
 
-const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#services", label: "Services" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+const dockItems = [
+  { icon: Home, target: "#", label: "Home" },
+  { icon: User, target: "#about", label: "About" },
+  { icon: Layers, target: "#services", label: "Services" },
+  { icon: Briefcase, target: "#projects", label: "Projects" },
+  { icon: Mail, target: "#contact", label: "Contact" },
 ];
 
 export function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-  const { scrollDirection, isAtTop } = useScrollDirection();
   const { theme, setTheme } = useTheme();
+  const { scrollDirection, isAtTop } = useScrollDirection();
 
-  const handleNavClick = (href: string) => {
-    setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const scrollToSection = (id: string) => {
+    if (id === "#") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <header
+    <div
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-transform duration-300",
-        "bg-background/80 backdrop-blur-md border-b border-border",
+        "fixed bottom-6 left-1/2 -translate-x-1/2 z-50",
+        "transition-all duration-300 ease-out",
         scrollDirection === "down" && !isAtTop
-          ? "-translate-y-full"
-          : "translate-y-0",
+          ? "translate-y-24 opacity-0"
+          : "translate-y-0 opacity-100",
       )}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <a
-            href="#"
-            className="text-xl font-bold text-foreground hover:text-primary transition-colors"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          >
-            Portfolio
-          </a>
+      <div
+        className="
+    flex items-center
+    gap-2 sm:gap-3
+    px-3 sm:px-4
+    py-2.5 sm:py-3
+    rounded-[20px] sm:rounded-[22px]
+    bg-background/60 backdrop-blur-2xl
+    border border-white/10
+    shadow-[0_10px_30px_rgba(0,0,0,0.15)]
+  "
+      >
+        {dockItems.map((item, i) => {
+          const Icon = item.icon;
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <button
-                key={link.href}
-                onClick={() => handleNavClick(link.href)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </button>
-            ))}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="ml-2"
+          return (
+            <button
+              key={i}
+              onClick={() => scrollToSection(item.target)}
+              className="
+                group relative
+                flex items-center justify-center
+                w-10 h-10 sm:w-11 sm:h-11 rounded-xl
+                transition-all duration-200 ease-out
+                hover:bg-black/5 dark:hover:bg-white/5
+                hover:scale-110
+                active:scale-95
+              "
             >
-              <Sun className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <Moon className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
-          </nav>
+              <Icon className="h-5 w-5" />
 
-          {/* Mobile Navigation */}
-          <div className="flex items-center gap-2 md:hidden">
-            <Button variant="ghost" size="icon" onClick={toggleTheme}>
-              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
+              {/* Apple-style tooltip */}
+              <span
+                className="
+                  absolute -top-10 left-1/2 -translate-x-1/2
+                  px-2 py-1 rounded-lg text-xs
+                  dark:bg-white/5 bg-black/5 dark:text-white text-black backdrop-blur-md
+                  opacity-0 translate-y-1
+                  group-hover:opacity-100 group-hover:translate-y-0
+                  transition-all duration-200
+                  pointer-events-none whitespace-nowrap
+                "
+              >
+                {item.label}
+              </span>
+            </button>
+          );
+        })}
 
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[280px]">
-                <nav className="flex flex-col gap-6 mt-8">
-                  {navLinks.map((link) => (
-                    <button
-                      key={link.href}
-                      onClick={() => handleNavClick(link.href)}
-                      className="text-lg font-medium text-foreground hover:text-primary transition-colors text-left"
-                    >
-                      {link.label}
-                    </button>
-                  ))}
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
+        {/* Divider */}
+        <div className="w-px h-8 bg-black/10 dark:bg-white/15 mx-1" />
+
+        {/* Theme toggle */}
+        <button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="
+            flex items-center justify-center
+            w-10 h-10 sm:w-11 sm:h-11 rounded-xl
+            transition-all duration-200 ease-out
+            hover:bg-black/5 dark:hover:bg-white/5
+            hover:scale-110
+            active:scale-95
+          "
+        >
+          <Sun className="h-5 w-5 hidden dark:block" />
+          <Moon className="h-5 w-5  dark:hidden" />
+        </button>
       </div>
-    </header>
+    </div>
   );
 }
