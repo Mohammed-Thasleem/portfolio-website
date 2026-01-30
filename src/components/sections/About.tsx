@@ -1,4 +1,5 @@
 import { useInView } from "@/hooks/useInView";
+import { Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function About() {
@@ -49,6 +50,26 @@ export function About() {
               , while ensuring accessibility, performance, and pixel-perfect
               implementation of designs.
             </p>
+
+            <div className="mt-10 flex justify-center">
+              <a
+                href="/src/assets/resume/Mohammed_Thasleem.pdf" // put your CV file in public folder
+                download
+                className="
+      inline-flex items-center gap-2
+      px-6 py-3 rounded-xl
+      font-medium
+      bg-foreground text-background
+      hover:opacity-90
+      transition-all duration-200 ease-out
+      hover:scale-105 active:scale-95
+      shadow-lg
+    "
+              >
+                <Download className="h-5 w-5" />
+                Download Resume
+              </a>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10 pt-10 border-t border-border">
               <div>
