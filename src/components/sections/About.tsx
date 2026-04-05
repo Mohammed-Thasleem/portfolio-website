@@ -53,7 +53,7 @@ export function About() {
 
             <div className="mt-10 flex justify-center">
               <a
-                href="/src/assets/resume/Mohammed_Thasleem.pdf" // put your CV file in public folder
+                href="/src/assets/resume/Mohammed_Thasleem_Resume.pdf" // put your CV file in public folder
                 download
                 className="
       inline-flex items-center gap-2
