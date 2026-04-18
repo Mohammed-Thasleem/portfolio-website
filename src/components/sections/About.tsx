@@ -22,7 +22,7 @@ export function About() {
             <p>
               I'm a passionate{" "}
               <span className="text-foreground font-medium">
-                Frontend Developer and UI/UX Designer
+                Frontend Engineer
               </span>{" "}
               with a deep love for creating digital experiences that are both
               beautiful and functional. With years of experience in the
